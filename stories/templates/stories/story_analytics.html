@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Story Analytics{% endblock %}
+
+{% block content %}
+<h2>Analytics for "{{ story.title }}"</h2>
+
+<h3>Node Interactions</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Node</th>
+            <th>Views</th>
+            <th>Total Time Spent (seconds)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for node in story.nodes.all %}
+            <tr>
+                <td>{{ node.text|slice:":50" }}...</td>
+                <td>{{ node.views }}</td>
+                <td>{{ node.total_time_spent.total_seconds }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

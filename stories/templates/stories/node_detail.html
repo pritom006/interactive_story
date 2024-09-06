@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ node.text }}</h1>
+
+{% if choices %}
+    <ul>
+    {% for choice in choices %}
+        <li>
+            <a href="{% url 'node_detail' choice.to_node.id %}">{{ choice.choice_text }}</a>
+            <a href="{% url 'edit_story_choice' choice.id %}">Edit</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No further choices available.</p>
+{% endif %}
+
+<!-- Form to create a new choice -->
+<h2>Create a Choice</h2>
+<form action="{% url 'create_story_choice' node.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Choice</button>
+</form>
+
+{% endblock %}

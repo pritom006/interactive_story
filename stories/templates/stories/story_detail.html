@@ -1,0 +1,23 @@
+ 
+{% extends 'base.html' %}
+
+{% block title %}{{ story.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ story.title }}</h2>
+<p>{{ story.description }}</p>
+<p>By: {{ story.author }}</p>
+
+<h3>Start Reading</h3>
+{% if story.nodes.count > 0 %}
+    <a href="{% url 'node_detail' story.nodes.first.id %}">Start from the beginning</a>
+{% else %}
+    <p>This story doesn't have any nodes yet.</p>
+{% endif %}
+
+{% if user == story.author %}
+    <p><a href="{% url 'story_analytics' story.pk %}" class="btn">View Analytics</a></p>
+    <p><a href="{% url 'create_story_node' story.pk %}" class="btn">Add new node</a></p>
+{% endif %}
+{% endblock %} 
+

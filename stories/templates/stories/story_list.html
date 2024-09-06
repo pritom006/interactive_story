@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Story List{% endblock %}
+
+{% block content %}
+<h2>Available Stories</h2>
+<ul class="story-list">
+    {% for story in stories %}
+        <li>
+            <a href="{% url 'story_detail' story.pk %}">{{ story.title }}</a> by {{ story.author }}
+        </li>
+    {% empty %}
+        <li>No stories available yet.</li>
+    {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+    <p><a href="{% url 'create_story' %}" class='btn'>Create a new story</a></p>
+{% endif %}
+{% endblock %}
