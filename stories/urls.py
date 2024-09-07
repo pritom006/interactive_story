@@ -9,5 +9,5 @@ urlpatterns = [
     path('<int:story_pk>/create_node/', views.create_story_node, name='create_story_node'),
     path('node/<int:node_id>/create_choice/', views.create_story_choice, name='create_story_choice'),
     path('choice/<int:choice_id>/edit/', views.edit_story_choice, name='edit_story_choice'),
-    path('<int:pk>/analytics/', views.story_analytics, name='story_analytics'),
+    path('<int:story_id>/analytics/', views.story_analytics, name='story_analytics'),
 ]

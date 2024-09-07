@@ -37,6 +37,11 @@ a:hover {
     background-color: #3498db;
     padding: 10px 0;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    /* Space between items */
 }
 
 .navbar a {
@@ -44,11 +49,34 @@ a:hover {
     font-size: 16px;
     padding: 14px 20px;
     display: inline-block;
+    background-color: #3498db;
+    border: none;
+    text-align: center;
+    text-decoration: none;
 }
 
 .navbar a:hover {
     background-color: #2980b9;
-    color: #fff;
+}
+
+.navbar form {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar form button {
+    color: white;
+    font-size: 16px;
+    padding: 14px 20px;
+    display: inline-block;
+    background-color: #3498db;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.navbar form button:hover {
+    background-color: #2980b9;
 }
 
 

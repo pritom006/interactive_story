@@ -3,6 +3,8 @@ from django.utils import timezone
 from .models import Story, StoryNode, StoryChoice
 from .forms import StoryChoiceForm, StoryForm, StoryNodeForm
 from django.contrib.auth.decorators import login_required
+from django.utils.timezone import now
+from datetime import timedelta
 
 def story_list(request):
     stories = Story.objects.all()
@@ -81,10 +83,31 @@ def create_story_node(request, story_pk):
     return render(request, 'stories/create_story_node.html', {'form': form, 'story': story})
 
 @login_required
-def story_analytics(request, pk):
-    story = get_object_or_404(Story, pk=pk, author=request.user)
-    nodes = story.nodes.all()
-    return render(request, 'stories/story_analytics.html', {'story': story, 'nodes': nodes})
+def story_analytics(request, story_id):
+    story = get_object_or_404(Story, pk=story_id)
+    nodes = story.nodes.all()  # Assuming a relationship between Story and Node
+    
+    # Helper function to format timedelta to H:M:S
+    def format_timedelta(td):
+        total_seconds = int(td.total_seconds())
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{hours:02}:{minutes:02}:{seconds:02}"
+    
+    # Calculate and format time spent for each node
+    for node in nodes:
+        node.formatted_time_spent = format_timedelta(node.total_time_spent)
+        
+    # Calculate total time spent
+    total_time_spent = sum((node.total_time_spent for node in nodes), timedelta())
+    formatted_total_time = format_timedelta(total_time_spent)
+    
+    context = {
+        'story': story,
+        'nodes': nodes,
+        'formatted_total_time': formatted_total_time,
+    }
+    return render(request, 'stories/story_analytics.html', context)
 
 
 @login_required

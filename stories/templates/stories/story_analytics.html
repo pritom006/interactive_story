@@ -3,25 +3,38 @@
 {% block title %}Story Analytics{% endblock %}
 
 {% block content %}
-<h2>Analytics for "{{ story.title }}"</h2>
+<div class="analytics-container">
+    <h2 class="analytics-header">Story Analytics for "{{ story.title }}"</h2>
 
-<h3>Node Interactions</h3>
-<table>
-    <thead>
-        <tr>
-            <th>Node</th>
-            <th>Views</th>
-            <th>Total Time Spent (seconds)</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for node in story.nodes.all %}
+    <table class="analytics-table">
+        <thead>
             <tr>
-                <td>{{ node.text|slice:":50" }}...</td>
-                <td>{{ node.views }}</td>
-                <td>{{ node.total_time_spent.total_seconds }}</td>
+                <th>Node</th>
+                <th>Views</th>
+                <th>Time Spent (H:M:S)</th>
+                <th>Choices Made</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for node in nodes %}
+            <tr>
+                <td>{{ node.title }}</td>
+                <td>{{ node.views }}</td>
+                <td>{{ node.formatted_time_spent }}</td> <!-- Use formatted time spent -->
+                <td>{{ node.choices_from.count }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No data available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <p>Total Time Spent on Story: <span>{{ formatted_total_time }}</span></p>
+    </div>
+
+    <a href="{% url 'story_detail' story.pk %}" class="analytics-btn">Back to Story</a>
+</div>
 {% endblock %}
